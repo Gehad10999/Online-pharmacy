@@ -6,32 +6,38 @@ const addToCart = async (req, res) => {
 
     try {
         const [productRows] = await pool.execute(
-        'SELECT stock FROM products WHERE id = ?',
-        [product_id]
+            'SELECT stock FROM products WHERE id = ? FOR UPDATE',
+            [product_id]
         );
 
         if (productRows.length === 0) {
             return res.status(404).json({ message: 'Product not found' });
         }
-    
+
         const availableStock = productRows[0].stock;
-    
+
         if (quantity > availableStock) {
             return res.status(400).json({
-            message: `Only ${availableStock} items available in stock`,
+                message: `Only ${availableStock} items available in stock`,
             });
         }
-    
+
         await pool.execute(
             'INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)',
             [user_id, product_id, quantity]
         );
-    
-        return res.status(201).json({ message: 'Added to cart' });
-        } catch (err) {
+
+        await pool.execute(
+            'UPDATE products SET stock = stock - ? WHERE id = ?',
+            [quantity, product_id]
+        );
+
+        return res.status(201).json({ message: 'Added to cart and stock updated' });
+    } catch (err) {
         return res.status(500).json({ error: err.message });
-        }
+    }
 };
+
 
 const getCart = async (req, res) => {
     const { cartId } = req.params;
