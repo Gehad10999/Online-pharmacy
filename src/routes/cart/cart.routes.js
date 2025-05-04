@@ -11,7 +11,18 @@ const {
 } = require('../../middlewares/Validation.js')
 
 
-cartRouter.post('/',verifyToken, cartValidation, addToCart);
-cartRouter.get('/:cartId',verifyToken, getCartValidation, getCart);
+cartRouter.post(
+    '/',
+    verifyToken,
+    cartValidation,
+    addToCart
+);
+
+cartRouter.get(
+    '/:cartId',
+    verifyToken,
+    getCartValidation,
+    getCart
+);
 
 module.exports = {cartRouter};

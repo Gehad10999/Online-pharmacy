@@ -6,8 +6,17 @@ const {
     registerValidation
 } = require('../../middlewares/Validation')
 
-router.post('/login',loginValidation, login );
-router.post('/register',registerValidation, register );
+router.post(
+    '/login',
+    loginValidation,
+    login 
+);
+
+router.post(
+    '/register',
+    registerValidation,
+    register 
+);
 
 module.exports = {
     router
