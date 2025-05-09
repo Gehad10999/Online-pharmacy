@@ -1,4 +1,4 @@
-import { body, param } from 'express-validator';
+const {body, param} = require('express-validator');
 
 const registerValidation = [
     body('email').isEmail().withMessage('Invalid email format'),
@@ -12,7 +12,10 @@ const registerValidation = [
 
 const loginValidation = [
     body('email').isEmail().withMessage('Invalid email format'),
-    body('password').notEmpty().withMessage('Password is required'),
+    body('password')
+    .notEmpty()
+    .isLength({ min: 11, max: 15 })
+    .withMessage('Password is required'),
 ];
 
 const productValidation = [

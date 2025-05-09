@@ -4,24 +4,27 @@ const {
     addToCart,
     getCart
 } = require('./cart.controller');
-const {verifyToken} = require('../../middlewares/verifyToken.js')
 const {
     cartValidation,
     getCartValidation
 } = require('../../middlewares/Validation.js')
+const {verifySession} = require('../../middlewares/verifySession.js');
+const {validateRequest} = require('../../middlewares/validateRequest.js');
 
 
 cartRouter.post(
     '/',
-    verifyToken,
     cartValidation,
+    validateRequest,
+    verifySession,
     addToCart
 );
 
 cartRouter.get(
     '/:cartId',
-    verifyToken,
     getCartValidation,
+    validateRequest,
+    verifySession,
     getCart
 );
 

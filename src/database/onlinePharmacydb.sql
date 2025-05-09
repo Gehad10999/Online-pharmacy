@@ -31,5 +31,5 @@ select * from Users;
 SELECT * FROM products;
 SELECT * FROM cart;
 
-
-TRUNCATE TABLE Users;
+ALTER TABLE Users
+ADD COLUMN type ENUM('u', 'a') NOT NULL DEFAULT 'u';
