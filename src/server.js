@@ -6,9 +6,6 @@ const { pool , database} = require('./models/config');
 
 async function startServer() {
     //connecting to SQL database 
-    // if(!process.env.ACCESS_TOKEN_SECRET){
-    //     console.log("JWT MUST BE DEFINED !!");
-    // }
     await pool.getConnection()
     .then((conn) => {
         console.log(`✅ Connected to ${database} database!`);

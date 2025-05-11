@@ -4,7 +4,9 @@ const {
     addProduct,
     updatePrice,
     getProducts,
-    getSpicificProduct
+    getSpicificProduct,
+    deleteProduct,
+    editProduct
 } = require('./products.controller');
 const {
     productValidation,
@@ -13,10 +15,12 @@ const {
 } = require('../../middlewares/Validation');
 const {verifySession} = require('../../middlewares/verifySession');
 const {validateRequest} = require('../../middlewares/validateRequest');
+const {adminAuth} = require('../../middlewares/adminAuth')
 
 
 productRouter.post(
     '/add',
+    adminAuth,
     productValidation,
     validateRequest,
     verifySession,
@@ -29,14 +33,6 @@ productRouter.get(
     getProducts
 );
 
-productRouter.put(
-    '/price',
-    updatePriceValidation,
-    validateRequest,
-    verifySession,
-    updatePrice
-);
-
 productRouter.get(
     '/:productId',
     getSpecificProductValidation,
@@ -45,5 +41,18 @@ productRouter.get(
     getSpicificProduct
 );
 
+productRouter.delete(
+    '/:productId',
+    adminAuth,
+    verifySession,
+    deleteProduct
+);
+
+productRouter.put(
+    '/edit/:productId',
+    adminAuth,
+    verifySession,
+    editProduct
+)
 
 module.exports = {productRouter} ;

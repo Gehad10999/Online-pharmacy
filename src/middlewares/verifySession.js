@@ -1,9 +1,15 @@
-const verifySession = (req, res, next) => {
-    if (req.session && req.session.user) {
-        next(); // Session exists
-    } else {
-        return res.status(401).json({ status: 'error', message: 'Unauthorized, session not found' });
+const verifySession = async (req, res, next) => {
+    try {
+        if (req.session && req.session.user) {
+            req.userID = req.session.user.user_id;
+            next(); 
+        } else {
+            return res.status(401).json({ message: 'Unauthorized: Please login first.' });
+        }
+    } catch (err) {
+        console.error('Session Error:', err);
+        return res.status(500).json({ message: 'Error with session.' });
     }
 };
 
-module.exports = {verifySession};
+module.exports = { verifySession };

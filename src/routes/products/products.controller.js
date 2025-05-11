@@ -4,19 +4,39 @@ const addProduct = async (req, res) => {
     const { name, price, stock } = req.body;
 
     try {
-        const [product] = await pool.execute('INSERT INTO products (name, price, stock) VALUES (?, ?, ?)', [name, price, stock]);
-        res.status(201).json({ message: 'Product added' });
+        const [existing] = await pool.execute(
+            'SELECT id FROM products WHERE name = ?',
+            [name]
+        );
+
+        if (existing.length > 0) {
+            return res.status(409).json({ message: 'Product with this name already exists.' });
+        }
+
+        const [result] = await pool.execute(
+            'INSERT INTO products (name, price, stock) VALUES (?, ?, ?)',
+            [name, price, stock]
+        );
+
+        const insertedId = result.insertId;
+
+        return res.status(201).json({
+            message: 'Product added',
+            productID: insertedId
+        });
+
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
+
 
 const getProducts = async (req, res) => {
     try {
         const [rows] = await pool.execute('SELECT * FROM products');
         return res.status(200).json(rows);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -39,20 +59,69 @@ const getSpicificProduct = async (req, res) => {
     }
 };
 
+const deleteProduct = async (req, res) => {
+    const { productId } = req.params;
 
-const updatePrice = async (req, res) => {
-    const { productId, price } = req.body;
     try {
-        await pool.execute('UPDATE products SET price = ? WHERE id = ?', [price, productId]);
-        res.json({ message: 'Price updated' });
+        const [result] = await pool.execute('DELETE FROM products WHERE id = ?', [productId]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: `Product with ID ${productId} not found.` });
+        }
+        return res.status(200).json({ message: 'Product deleted' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
+
+const editProduct = async (req, res) => {
+    const { productId } = req.params;
+    const { name, price, stock } = req.body;
+
+    try {
+        const fields = [];
+        const values = [];
+
+        if (name !== undefined) {
+            fields.push('name = ?');
+            values.push(name);
+        }
+
+        if (price !== undefined) {
+            fields.push('price = ?');
+            values.push(price);
+        }
+
+        if (stock !== undefined) {
+            fields.push('stock = ?');
+            values.push(stock);
+        }
+
+        if (fields.length === 0) {
+            return res.status(400).json({ message: 'No fields provided to update.' });
+        }
+
+        values.push(productId);
+
+        const query = `UPDATE products SET ${fields.join(', ')} WHERE id = ?`;
+
+        const [result] = await pool.execute(query, values);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: `Product with ID ${productId} not found.` });
+        }
+
+        return res.status(200).json({ message: 'Product updated' });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
 
 module.exports = {
     addProduct,
     getProducts,
     getSpicificProduct,
-    updatePrice
+    // updatePrice,
+    deleteProduct,
+    editProduct
 }

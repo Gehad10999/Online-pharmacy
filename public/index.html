@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>PharmaNex</title>
+    <link rel="shortcut icon" href="images/logo.jpg"> <!-- for icon in the browser bar -->
+    <script src="https://kit.fontawesome.com/ad0bbf6961.js" crossorigin="anonymous"></script> <!-- for icons -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+<!-- Header -->
+<section id="header">
+    <a href="#"><img src="images/x.png" class="logo" alt=" "></a>
+    <div>
+        <ul id="navbar">
+            <li><a class="active" href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+
+        </ul>
+    </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="checkout-container">
+    <div class="order-summary" id="order-summary">
+        <h2>Order Summary</h2>
+        <div id="order-items"></div>
+        <div class="total-price">
+            <h3>Total: <span id="total-price">0.00 EGP</span></h3>
+        </div>
+    </div>
+
+    <div class="checkout-form">
+        <h2>Checkout</h2>
+        <form onsubmit="submitOrder(event)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" required></textarea>
+
+            <label for="payment">Payment Method:</label>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="credit_card" id="credit-card">
+                    <img src="images/visa-icon.png" alt="Visa" title="Visa">
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="paypal" id="paypal">
+                    <img src="images/paypal-icon.png" alt="PayPal" title="PayPal">
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment" value="cod" id="cod">
+                    <img src="images/cod-icon.png" alt="Cash on Delivery" title="Cash on Delivery">
+                </label>
+            </div>
+
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column logo-column">
+            <h2 class="logo">PharmaNex</h2>
+            <p>Your online pharmacy for trusted medical products.</p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Cart</a></li>
+                <li><a href="#">Checkout</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Login / Sign Up</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Contact Us</h4>
+            <ul>
+                <li>Email: info@pharmaNex.com</li>
+                <li>Phone: ‪+20 123 456 7890‬</li>
+                <li>Address: Suez, Egypt</li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Subscribe</h4>
+            <form>
+                <input type="email" placeholder="Your email" />
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </div>
+</footer>
+<script src="checkout.js" defer></script>
+</body>
+</html>

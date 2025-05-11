@@ -14,7 +14,7 @@ const loginValidation = [
     body('email').isEmail().withMessage('Invalid email format'),
     body('password')
     .notEmpty()
-    .isLength({ min: 11, max: 15 })
+    .isLength({ min: 6})
     .withMessage('Password is required'),
 ];
 

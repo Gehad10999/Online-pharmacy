@@ -1,8 +1,8 @@
 const { pool } = require('../../models/config');
 
 const addToCart = async (req, res) => {
+    const user_id = req.userID;
     const { product_id, quantity } = req.body;
-    const user_id = req.userID; 
 
     try {
         const [productRows] = await pool.execute(
@@ -41,7 +41,6 @@ const addToCart = async (req, res) => {
 
 const getCart = async (req, res) => {
     const { cartId } = req.params;
-    const user_id = req.userID; 
 
 
     try {

@@ -8,7 +8,7 @@ const login = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         const [result] = await pool.query('SELECT * FROM Users WHERE email = ?;', [email]);
@@ -26,11 +26,11 @@ const login = async (req, res) => {
 
         const token = jwt.sign({ id: user.user_id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-         //store the token and user data in the session
+        //store the token and user data in the session
         req.session.jwt = token;
-        req.session.user = {user_id: user.user_id, full_name: user.full_name, email: user.email};
+        req.session.user = {user_id: user.user_id, full_name: user.full_name, email: user.email, type: user.type};
 
-        console.log("Login successful for user:", user.user_id);
+        console.log("Login successful for user:", user.user_id, "type is: ", user.type);
         return res.status(200).json({ status: 'success', id: user.user_id, token: token });
 
     } catch (err) {
@@ -45,10 +45,10 @@ const register = async (req, res) => {
 
     try {
         // check from type 
-        if (type !== "u" && type !== "a") {
+        if (type !== "user" && type !== "admin") {
             return res.status(401).json({
                 status: 'error',
-                message: 'type must be "u" (user) or "a" (admin")'
+                message: 'type must be (user) or (admin")'
             });
         }
 
@@ -59,15 +59,13 @@ const register = async (req, res) => {
             return res.status(400).json({ status: 'error', message: 'Email already exists for this user' });
         }
 
-        
-    
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // Insert the new user
         await pool.query(
-            `INSERT INTO Users (full_name, email, password, phone_number) VALUES (?, ?, ?, ?)`,
-            [full_name, email, hashedPassword, phone_number]
+            `INSERT INTO Users (full_name, email, password, phone_number, type) VALUES (?, ?, ?, ?, ?)`,
+            [full_name, email, hashedPassword, phone_number, type]
         );
 
         console.log("User registered successfully:", full_name);
@@ -76,7 +74,7 @@ const register = async (req, res) => {
 
         //store the token and user data in the session
         req.session.jwt = newToken;
-        req.session.user = {full_name, email, phone_number};
+        req.session.user = {full_name, email, phone_number, type, user_id};
     
         return res.status(201).json({ status: 'success', message: 'User registered successfully', token: newToken });
 
@@ -86,7 +84,21 @@ const register = async (req, res) => {
     }
 };
 
+// Logout function
+const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).json({ status: 'error', message: 'Logout failed' });
+        }
+
+        res.clearCookie('connect.sid');
+        return res.status(200).json({ status: 'success', message: 'Logged out successfully' });
+    });
+};
+
 module.exports = {
     login,
-    register
+    register,
+    logout
 };
