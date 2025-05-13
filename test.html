@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animated Login/Register</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 800px;
+      height: 500px;
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px;
+      background: #fff;
+      transition: transform 0.5s ease-in-out;
+      z-index: 2;
+    }
+
+    .form-container.register-mode {
+      transform: translateX(-100%);
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form input {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #f0f0f0;
+    }
+
+    .form button {
+      padding: 12px;
+      background: #517CFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .panel {
+      width: 50%;
+      background: #517CFF;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+      transition: transform 0.5s ease-in-out;
+      z-index: 1;
+    }
+
+    .panel-content {
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .container.active .form-container {
+      transform: translateX(0%);
+    }
+
+    .container.active .panel .login-panel {
+      display: none;
+    }
+
+    .container:not(.active) .panel .register-panel {
+      display: none;
+    }
+
+    .panel h2 {
+      margin-bottom: 10px;
+    }
+
+    .panel p {
+      margin-bottom: 20px;
+    }
+
+    .panel button {
+      background: transparent;
+      border: 2px solid white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      margin: 0 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .container.active .form-container {
+      transform: translateX(-100%);
+    }
+ /* From Uiverse.io by KhaledMatalkah */ 
+.custom-checkbox {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox .checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+  transform-style: preserve-3d;
+}
+
+.custom-checkbox .checkmark::before {
+  content: "\2713";
+  font-size: 16px;
+  color: transparent;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #333;
+  border-color: #333;
+  transform: scale(1.1) rotateZ(360deg) rotateY(360deg);
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark::before {
+  color: #fff;
+}
+
+.custom-checkbox:hover {
+  color: #666;
+}
+
+.custom-checkbox:hover .checkmark {
+  border-color: #666;
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.custom-checkbox input[type="checkbox"]:focus + .checkmark {
+  box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.custom-checkbox .checkmark,
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  transition: background-color 1.3s, border-color 1.3s, color 1.3s, transform 0.3s;
+}
+
+   
+  </style>
+</head>
+<body>
+
+<div class="container" id="container">
+  <!-- Panel (Left) -->
+  <div class="panel">
+    <div class="panel-content login-panel">
+      <h2>مرحبًا بك!</h2>
+      <p>ليس لديك حساب؟</p>
+      <button id="toRegister">تسجيل حساب</button>
+    </div>
+    <div class="panel-content register-panel">
+      <h2>أهلاً بعودتك!</h2>
+      <p>هل لديك حساب بالفعل؟</p>
+      <button id="toLogin">تسجيل الدخول</button>
+    </div>
+  </div>
+
+  <!-- Form Container (Right) -->
+  <div class="form-container" id="formContainer">
+    <!-- Login Form -->
+    <div class="form login-form">
+      <h2>تسجيل الدخول</h2>
+      <input type="text" placeholder="اسم المستخدم" />
+      <input type="password" placeholder="كلمة المرور" />
+      <button>دخول</button>
+    </div>
+
+    <!-- Register Form -->
+    <div class="form register-form" style="display: none;">
+      <h2>تسجيل حساب</h2>
+      <input type="text" placeholder="اسم المستخدم" />
+      <input type="email" placeholder="البريد الإلكتروني" />
+      <input type="password" placeholder="كلمة المرور" />
+      <h2> Are You Admin?</h2>
+      <!-- From Uiverse.io by JaydipPrajapati1910 --> 
+<!-- From Uiverse.io by KhaledMatalkah --> 
+<label class="custom-checkbox">
+    <input name="dummy" type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  
+      <button>تسجيل</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const container = document.getElementById("container");
+  const toRegister = document.getElementById("toRegister");
+  const toLogin = document.getElementById("toLogin");
+  const loginForm = document.querySelector(".login-form");
+  const registerForm = document.querySelector(".register-form");
+
+  toRegister.addEventListener("click", () => {
+    container.classList.add("active");
+    loginForm.style.display = "none";
+    registerForm.style.display = "flex";
+  });
+
+  toLogin.addEventListener("click", () => {
+    container.classList.remove("active");
+    loginForm.style.display = "flex";
+    registerForm.style.display = "none";
+  });
+</script>
+
+</body>
+</html>

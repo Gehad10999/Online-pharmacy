@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders - Admin Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      direction: ltr;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #517C63;
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #406b53;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #365a46;
+    }
+
+    .main {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h3 {
+      margin-bottom: 15px;
+    }
+
+    .filter {
+      margin-bottom: 20px;
+    }
+
+    .order-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .order-details {
+      flex-grow: 1;
+      margin-left: 15px;
+    }
+
+    .order-actions button {
+      margin-left: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-confirm {
+      background-color: #517C63;
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: #ab3f3f;
+      color: white;
+    }
+  .filter-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .filter-btn {
+    padding: 10px 20px;
+    border: 2px solid #e0b4b4;
+    background-color: white;
+    color: black;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+
+  .filter-btn:hover {
+    background-color: #f8f8f8;
+  }
+
+  .filter-btn.active {
+    background-color: #517C63;
+    color: white;
+    border-color: #517C63;
+  }
+
+       .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+       .circle-img {
+      width: 150px; 
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover; 
+    
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li class="logo-container">
+          <img src="logo.jpg" class="circle-img">
+        </li>
+        <li>Dash Boarder</li>
+        <li>Product Managment</li>
+        <li>Orders</li>
+        <li>Logout</li>
+      </ul>
+    </div>
+
+    <div class="main">
+      <div class="section">
+        <h3>Unconfirmed Orders</h3>
+        <div class="order-card">
+          <div class="order-details">
+            <p><strong>Order #1025</strong></p>
+            <p>Address: 123 Main Street</p>
+            <p>Status: Pending Confirmation</p>
+            <p>Total: 250 EGP</p>
+            <p>Date: May 11, 2025</p>
+            <p>Items: 4</p>
+            <p>Customer: Ahmed Ali</p>
+          </div>
+          <div class="order-actions">
+            <button class="btn-confirm">Confirm</button>
+            <button class="btn-delete">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Orders</h3>
+     <div class="filter-buttons">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="cancelled">Cancel</button>
+  <button class="filter-btn" data-filter="pending">Pending</button>
+  <button class="filter-btn" data-filter="confirmed">Confirm</button>
+</div>
+
+        <div class="order-card">
+          <div class="order-details">
+            <p><strong>Order #1021</strong></p>
+            <p>Address: Garden City</p>
+            <p>Status: Confirmed</p>
+            <p>Total: 150 EGP</p>
+            <p>Date: May 11, 2025</p>
+            <p>Items: 3</p>
+            <p>Customer: Sara Youssef</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script>
+  const filterButtons = document.querySelectorAll('.filter-btn');
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      const selectedFilter = button.dataset.filter;
+      // هنا يمكنك إضافة منطق الفلترة بناءً على selectedFilter
+      console.log("Filter selected:", selectedFilter);
+    });
+  });
+</script>
+</body>
+
+</html>
