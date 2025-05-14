@@ -31,7 +31,7 @@ const login = async (req, res) => {
         req.session.user = {user_id: user.user_id, full_name: user.full_name, email: user.email, type: user.type};
 
         console.log("Login successful for user:", user.user_id, "type is: ", user.type);
-        return res.status(200).json({ status: 'success', id: user.user_id, token: token });
+        return res.status(200).json({ status: 'success', id: user.user_id, token: token, type:user.type });
 
     } catch (err) {
         console.error("Error in login:", err);
@@ -63,7 +63,7 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // Insert the new user
-        await pool.query(
+        const [result]= await pool.query(
             `INSERT INTO Users (full_name, email, password, phone_number, type) VALUES (?, ?, ?, ?, ?)`,
             [full_name, email, hashedPassword, phone_number, type]
         );
@@ -73,8 +73,10 @@ const register = async (req, res) => {
         const newToken = jwt.sign({ id: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
         //store the token and user data in the session
+        const insertedId = result.insertId;
+
         req.session.jwt = newToken;
-        req.session.user = {full_name, email, phone_number, type, user_id};
+        req.session.user = { full_name, email, phone_number, type, id: insertedId };
     
         return res.status(201).json({ status: 'success', message: 'User registered successfully', token: newToken });
 

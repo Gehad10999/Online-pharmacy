@@ -2,7 +2,7 @@ const http = require('http');
 const app = require('./app');
 const PORT = 5000 ;
 const server = http.createServer(app);
-const { pool , database} = require('./models/config');
+const { pool , database} = require('./src/models/config');
 
 async function startServer() {
     //connecting to SQL database 

@@ -77,3 +77,5 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE Users
 MODIFY COLUMN type ENUM('user', 'admin') NOT NULL;
+
+ALTER TABLE products ADD image_url VARCHAR(255);

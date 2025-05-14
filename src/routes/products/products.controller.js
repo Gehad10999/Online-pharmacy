@@ -1,7 +1,9 @@
 const { pool } = require('../../models/config');
 
 const addProduct = async (req, res) => {
-    const { name, price, stock } = req.body;
+    const { name, price, stock, image_url } = req.body;
+
+    console.log("Received data:", req.body);
 
     try {
         const [existing] = await pool.execute(
@@ -14,13 +16,14 @@ const addProduct = async (req, res) => {
         }
 
         const [result] = await pool.execute(
-            'INSERT INTO products (name, price, stock) VALUES (?, ?, ?)',
-            [name, price, stock]
+            'INSERT INTO products (name, price, stock, image_url) VALUES (?, ?, ?, ?)',
+            [name, price, stock, image_url]
         );
 
         const insertedId = result.insertId;
 
         return res.status(201).json({
+            success: true,
             message: 'Product added',
             productID: insertedId
         });
@@ -29,7 +32,6 @@ const addProduct = async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 };
-
 
 const getProducts = async (req, res) => {
     try {
@@ -116,6 +118,17 @@ const editProduct = async (req, res) => {
     }
 };
 
+const getLowStockProducts = async (req, res) => {
+    const query = `SELECT name, image_url, stock FROM products WHERE stock < 5`;
+
+    try {
+        const [rows] = await pool.query(query);
+        res.status(200).json({ low_stock_products: rows });
+    } catch (err) {
+        console.error('Error fetching low stock products:', err);
+        res.status(500).json({ error: 'Database error', details: err.message });
+    }
+};
 
 module.exports = {
     addProduct,
@@ -123,5 +136,6 @@ module.exports = {
     getSpicificProduct,
     // updatePrice,
     deleteProduct,
-    editProduct
+    editProduct,
+    getLowStockProducts
 }
