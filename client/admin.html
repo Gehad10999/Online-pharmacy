@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li class="logo-container">
+          <img src="logo.jpeg" class="circle-img">
+        </li>
+        <li><a href="admin.html">Dash Board</a></li>
+        <li><a href="#" onclick="openPopup()">Product Management</a></li>
+        <li><a href="orders.html">Orders</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay">
+      <div class="popup-content">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2 id="mainTitle" class="popup-title">Select the procedure</h2>
+
+        <div class="btn-group" id="actionButtons">
+          <button class="popup-btn add-btn" onclick="showAddProduct()">Add new product</button>
+          <button class="popup-btn delete-btn" onclick="showDeleteProduct()">Delete Product</button>
+        </div>
+
+        <div class="popup-small" id="addProductBox">
+          <h3>add product</h3>
+          <input type="text" id="addName" placeholder="Product's Name">
+          <input type="text" id="addPrice" placeholder="Price">
+          <input type="text" id="addStock" placeholder="stock ">
+          <input type="text" id="addImage" placeholder="Photo link ">
+          <input type="text" id="addCat" placeholder="Category ">
+
+          <button class="popup-btn add-btn" onclick="handleAddProduct()">Add</button>
+        </div>
+
+        <div class="popup-small" id="deleteProductBox">
+          <h3>delete product</h3>
+          <input type="text" id="deleteId" placeholder="Product ID">
+          <input type="text" id="deleteName" placeholder="Product's Name ">
+          <button class="popup-btn delete-btn" onclick="deleteProduct()">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="welcome">  
+        <div class="welcome-text">
+          <h2>Welcome, Admin</h2>
+          <p>We wish you a day full of productivity!</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card"><h3>Products</h3><p id="statProducts">--</p></div>
+        <div class="card"><h3>Orders</h3><p id="statOrders">--</p></div>
+        <div class="card"><h3>Users</h3><p id="statUsers">--</p></div>
+        <div class="card"><h3>Today's Earnings</h3><p id="statEarnings">--</p></div>
+      </div>
+
+      <div class="section">
+        <h3>About to run out</h3>
+        <div class="low-stock-row" id="lowStockContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

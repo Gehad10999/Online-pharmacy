@@ -1,0 +1,245 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #517C63;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #406b53;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    width: 100%;
+  }
+  
+  .sidebar ul li:hover {
+    background-color: #365a46;
+  }
+  
+  .main {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #AB9C81;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  }
+  
+  .welcome img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 20px; 
+    border: 2px solid #517C63;
+  }
+  
+  .welcome-text h2 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    color: #517C63;
+  }
+  
+  .welcome-text p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  
+  .card {
+    flex: 0 0 170px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid #AB9C81;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .section {
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .table th, .table td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .low-stock-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .low-stock-card {
+    background-color: white;
+    border: 2px solid #e0b4b4;
+    border-radius: 12px;
+    padding: 15px;
+    width: 180px;
+    height: 200px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .low-stock-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .low-stock-card h4 {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .low-stock-card p {
+    margin: 0;
+    color: #a94442;
+    font-weight: bold;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .circle-img {
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover; 
+  }
+  
+  .popup-overlay {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 350px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    position: relative;
+    text-align: center;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #888;
+    cursor: pointer;
+  }
+  
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .popup-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  
+  .add-btn {
+    background-color: #517C63;
+  }
+  
+  .delete-btn {
+    background-color: #AB3E3E;
+  }
+  
+  .popup-small {
+    display: none;
+    margin-top: 20px;
+  }
+  
+  .popup-small input {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .popup-title {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  

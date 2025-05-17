@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login / Register</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container login-mode" id="container">
+        <!-- Login White Panel -->
+        <div class="panel login-panel form-panel">
+            <div class="form-box">
+                <h2>Login</h2>
+                <input type="email" name="email" placeholder="Email" />
+                <input type="password" name="password" placeholder="Password" />
+                <button id="loginBtn">Login</button>
+            </div>
+        </div>
+
+        <!-- Login Green Panel -->
+        <div class="panel login-green green-panel">
+            <div>
+                <h2>Welcome!</h2>
+                <p>Don't have an account?</p>
+                <button onclick="toggleMode()">Register</button>
+            </div>
+        </div>
+
+        <!-- Register White Panel -->
+        <div class="panel register-panel form-panel">
+            <div class="form-box">
+                <h2>Register</h2>
+                <input type="text" name="full_name" placeholder="Full Name" />
+                <input type="text" name="phone_number" placeholder="Phone Number"/>
+                <input type="email" name="email" placeholder="Email" />
+                <input type="password" name="password" placeholder="Password" />
+                <h3>Are You Admin?</h3>
+                <label class="custom-checkbox">
+                    <input type="checkbox" name="type" />
+                    <span class="checkmark"></span>
+                </label>
+                <button id="registerBtn">Sign Up</button>
+            </div>
+        </div>
+
+        <!-- Register Green Panel -->
+        <div class="panel register-green green-panel">
+            <div>
+                <h2>Already have an account?</h2>
+                <button onclick="toggleMode()">Login</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

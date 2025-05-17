@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders - Admin Dashboard</title>
+  <link rel="stylesheet" href="css/orders.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <ul>
+        <li class="logo-container">
+          <img src="logo.jpeg" class="circle-img" alt="Logo">
+        </li>
+        <li><a href="admin.html">Dash Board</a></li>
+        <li><a href="javascript:void(0)" onclick="openPopup()">Product Management</a></li>
+        <li><a href="orders.html">Orders</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </div>
+
+    <div class="main">
+
+
+      <div class="section">
+        <h3>Orders</h3>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="cancelled">Cancel</button>
+          <button class="filter-btn" data-filter="pending">Pending</button>
+          <button class="filter-btn" data-filter="confirmed">Confirm</button>
+        </div>
+
+        <div id="order-cards-container-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <template id="order-card-template">
+    <div class="order-card">
+      <div class="order-details">
+        <p><strong>Order #{{orderNumber}}</strong></p>
+        <p>Address: {{address}}</p>
+        <p>Status: {{status}}</p>
+        <p>Total: {{total}}</p>
+        <p>Date: {{date}}</p>
+        <p>Items: {{items}}</p>
+        <p>Customer: {{customer}}</p>
+      </div>
+      <div class="order-actions">
+        <button class="btn-confirm">Confirm</button>
+        <button class="btn-delete">Delete</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="js/orders.js"></script>
+</body>
+</html>
