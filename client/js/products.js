@@ -86,7 +86,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     const res = await fetch('/api/products');
     const allProducts = await res.json();
 
-    
     const categories = {
       cosmetics: [],
       haircare: [],
