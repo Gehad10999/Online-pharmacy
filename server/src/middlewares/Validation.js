@@ -1,21 +1,24 @@
 const {body, param} = require('express-validator');
 
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+
 const registerValidation = [
     body('email').isEmail().withMessage('Invalid email format'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('password')
+        .isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+        .matches(passwordRegex).withMessage('Password must include uppercase, lowercase, number, and special character'),
     body('full_name').notEmpty().withMessage('Full name is required'),
     body('phone_number')
         .isString()
         .isLength({ min: 11, max: 15 })
-        .withMessage('Phone number must be between 10 and 15 characters'),
+        .withMessage('Phone number must be between 11 and 15 characters'),
 ];
 
 const loginValidation = [
     body('email').isEmail().withMessage('Invalid email format'),
     body('password')
-    .notEmpty()
-    .isLength({ min: 6})
-    .withMessage('Password is required'),
+        .notEmpty().withMessage('Password is required')
+        .matches(passwordRegex).withMessage('Password must include uppercase, lowercase, number, and special character'),
 ];
 
 const productValidation = [

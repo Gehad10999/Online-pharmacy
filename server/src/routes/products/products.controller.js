@@ -35,12 +35,12 @@ const addProduct = async (req, res) => {
 
 const getProductsGroupedByCategory = async (req, res) => {
     try {
-        const [products] = await pool.execute('SELECT name, price, image_url, category FROM products');
+        const [products] = await pool.execute('SELECT id, name, price, image_url, category FROM products');
 
         const grouped = {};
 
         for (const product of products) {
-            const { category, name, price, image_url } = product;
+            const { id, category, name, price, image_url } = product;
 
             if (!grouped[category]) {
                 grouped[category] = [];

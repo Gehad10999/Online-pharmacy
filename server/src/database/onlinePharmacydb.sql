@@ -76,7 +76,7 @@ TRUNCATE TABLE Users;
 SET FOREIGN_KEY_CHECKS = 1;
 
 ALTER TABLE Users
-MODIFY COLUMN type ENUM('user', 'admin') NOT NULL;
+add COLUMN type ENUM('user', 'admin') NOT NULL default 'user';
 
 ALTER TABLE products ADD image_url VARCHAR(255);
 ALTER TABLE products ADD category VARCHAR(50) NOT NULL DEFAULT 'medicine';
@@ -128,3 +128,4 @@ INSERT INTO order_items (order_id, product_id, quantity) VALUES
 (2, 1, 1),  -- 1 Matte Lipstick in order 1
 (2, 2, 2),  -- 2 Fit Me Foundation in order 1
 (3, 4, 1);  -- 1 Hero Baby Apple Compote in order 2
+

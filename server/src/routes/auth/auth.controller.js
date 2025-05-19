@@ -40,18 +40,57 @@ const login = async (req, res) => {
 };
 
 // Register Function
+// const register = async (req, res) => {
+//     const { full_name, email, password, phone_number, type } = req.body;
+
+//     try {
+//         // check from type 
+//         if (type !== "user" && type !== "admin") {
+//             return res.status(401).json({
+//                 status: 'error',
+//                 message: 'type must be (user) or (admin")'
+//             });
+//         }
+
+//         // Check if the email already exists
+//         const [existingUsers] = await pool.query(`SELECT email FROM Users WHERE email = ?`, [email]);
+    
+//         if (existingUsers.length > 0) {
+//             return res.status(400).json({ status: 'error', message: 'Email already exists for this user' });
+//         }
+
+//         const saltRounds = 10;
+//         const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+//         // Insert the new user
+//         const [result]= await pool.query(
+//             `INSERT INTO Users (full_name, email, password, phone_number, type) VALUES (?, ?, ?, ?, ?)`,
+//             [full_name, email, hashedPassword, phone_number, type]
+//         );
+
+//         console.log("User registered successfully:", full_name);
+    
+//         const newToken = jwt.sign({ id: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+
+//         //store the token and user data in the session
+//         const insertedId = result.insertId;
+
+//         req.session.jwt = newToken;
+//         req.session.user = { full_name, email, phone_number, type, id: insertedId };
+    
+//         return res.status(201).json({ status: 'success', message: 'User registered successfully', token: newToken });
+
+//     } catch (err) {
+//         console.error("Error during registration:", err);
+//         return res.status(500).json({ status: 'error', message: 'Internal server error' });
+//     }
+// };
+
+// Register Function
 const register = async (req, res) => {
-    const { full_name, email, password, phone_number, type } = req.body;
+    const { full_name, email, password, phone_number } = req.body;
 
     try {
-        // check from type 
-        if (type !== "user" && type !== "admin") {
-            return res.status(401).json({
-                status: 'error',
-                message: 'type must be (user) or (admin")'
-            });
-        }
-
         // Check if the email already exists
         const [existingUsers] = await pool.query(`SELECT email FROM Users WHERE email = ?`, [email]);
     
@@ -62,23 +101,30 @@ const register = async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+        // Determine user type based on SUPER_ADMIN_EMAIL
+        const userType = (email === process.env.SUPER_ADMIN_EMAIL) ? 'admin' : 'user';
+
         // Insert the new user
-        const [result]= await pool.query(
+        const [result] = await pool.query(
             `INSERT INTO Users (full_name, email, password, phone_number, type) VALUES (?, ?, ?, ?, ?)`,
-            [full_name, email, hashedPassword, phone_number, type]
+            [full_name, email, hashedPassword, phone_number, userType]
         );
 
-        console.log("User registered successfully:", full_name);
+        console.log("User registered successfully:", full_name, "| Type:", userType);
     
         const newToken = jwt.sign({ id: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-        //store the token and user data in the session
+        // Store the token and user data in the session
         const insertedId = result.insertId;
 
         req.session.jwt = newToken;
-        req.session.user = { full_name, email, phone_number, type, id: insertedId };
+        req.session.user = { full_name, email, phone_number, type: userType, id: insertedId };
     
-        return res.status(201).json({ status: 'success', message: 'User registered successfully', token: newToken });
+        return res.status(201).json({ 
+            status: 'success', 
+            message: `User registered successfully as ${userType}`, 
+            token: newToken, 
+        });
 
     } catch (err) {
         console.error("Error during registration:", err);
