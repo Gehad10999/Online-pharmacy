@@ -83,7 +83,7 @@ function renderCategory(categoryTitle, products, containerId) {
 
 window.addEventListener('DOMContentLoaded', async () => {
   try {
-    const res = await fetch('/api/products');
+    const res = await fetch('http://localhost:5000/product/all');
     const allProducts = await res.json();
 
     const categories = {
